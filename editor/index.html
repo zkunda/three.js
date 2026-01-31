@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>three.js editor</title>
+		<title>OWGE Editor</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<link rel="apple-touch-icon" href="images/icon.png">
@@ -9,6 +9,10 @@
 		<link rel="shortcut icon" href="../files/favicon_white.ico" media="(prefers-color-scheme: dark)"/>
 		<link rel="shortcut icon" href="../files/favicon.ico" media="(prefers-color-scheme: light)" />
 	</head>
+	<meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; connect-src 'self' data:;"
+    />
 	<body>
 		<link rel="stylesheet" href="css/main.css">
 
@@ -20,8 +24,8 @@
 					"three/addons/": "../examples/jsm/",
 
 					"three/examples/": "../examples/",
-					"three-gpu-pathtracer": "https://cdn.jsdelivr.net/npm/three-gpu-pathtracer@0.0.23/build/index.module.js",
-					"three-mesh-bvh": "https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.7.4/build/index.module.js"
+					"three-gpu-pathtracer": "../../modules/three-gpu-pathtracer/index.module.js",
+					"three-mesh-bvh": "../../modules/three-mesh-bvh/index.module.js"
 				}
 			}
 		</script>
@@ -242,17 +246,33 @@
 
 			// ServiceWorker
 
-			if ( 'serviceWorker' in navigator ) {
+			// if ( 'serviceWorker' in navigator ) {
 
-				try {
+			// 	try {
 
-					navigator.serviceWorker.register( 'sw.js' );
+			// 		navigator.serviceWorker.register( 'sw.js' );
 
-				} catch ( error ) {
+			// 	} catch ( error ) {
 
-				}
+			// 	}
 
+			// }
+
+			window.electronAPI.onWindowWillClose(async ()=>{
+			if (editor.history.undos.length === 0)
+			{
+				window.electronAPI.windowCloseReady();
+				return;
 			}
+
+			editor.utils.save(() => {
+				const json = editor.toJSON();
+				const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
+				return blob;
+			}, 'project.json' );
+
+			window.electronAPI.windowCloseReady();
+		})
 
 		</script>
 	</body>
