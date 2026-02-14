@@ -113,15 +113,15 @@
 
 					if ( isLoadingFromHash ) return;
 
-					// if ( state !== undefined ) {
+					if ( state !== undefined ) {
 
-					// 	await editor.fromJSON( state );
+						await editor.fromJSON( state );
 
-					// } else {
+					} else {
 
 						editor.signals.sceneEnvironmentChanged.dispatch( 'Default' );
 
-					//}
+					}
 
 					const selected = editor.config.getKey( 'selected' );
 
@@ -138,7 +138,7 @@
 				let timeout;
 
 				function saveState() {
-
+					
 					if ( editor.config.getKey( 'autosave' ) === false ) {
 
 						return;
@@ -153,7 +153,6 @@
 
 						timeout = setTimeout( function () {
 
-							// to do save to local
 							//editor.storage.set( editor.toJSON() );
 
 							editor.signals.savingFinished.dispatch();
@@ -266,11 +265,11 @@
 				return;
 			}
 
-			editor.utils.save(() => {
-				const json = editor.toJSON();
-				const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
-				return blob;
-			}, 'project.json' );
+			// editor.utils.save(() => {
+			// 	const json = editor.toJSON();
+			// 	const blob = new Blob( [ JSON.stringify( json ) ], { type: 'application/json' } );
+			// 	return blob;
+			// }, 'project.json' );
 
 			window.electronAPI.windowCloseReady();
 		})
