@@ -9,7 +9,7 @@ function Config() {
 	const storage = {
 		'language': suggestedLanguage,
 
-		'autosave': true,
+		'autosave': false,
 
 		'project/title': '',
 		'project/editable': false,

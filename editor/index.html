@@ -113,15 +113,15 @@
 
 					if ( isLoadingFromHash ) return;
 
-					if ( state !== undefined ) {
+					// if ( state !== undefined ) {
 
-						await editor.fromJSON( state );
+					// 	await editor.fromJSON( state );
 
-					} else {
+					// } else {
 
 						editor.signals.sceneEnvironmentChanged.dispatch( 'Default' );
 
-					}
+					//}
 
 					const selected = editor.config.getKey( 'selected' );
 
@@ -133,7 +133,7 @@
 
 				} );
 
-				//
+				
 
 				let timeout;
 
@@ -153,7 +153,8 @@
 
 						timeout = setTimeout( function () {
 
-							editor.storage.set( editor.toJSON() );
+							// to do save to local
+							//editor.storage.set( editor.toJSON() );
 
 							editor.signals.savingFinished.dispatch();
 
