@@ -184,28 +184,32 @@ function MenubarFile( editor ) {
 
 	// Import
 
-	const form = document.createElement( 'form' );
-	form.style.display = 'none';
-	document.body.appendChild( form );
+	// const form = document.createElement( 'form' );
+	// form.style.display = 'none';
+	// document.body.appendChild( form );
 
-	const fileInput = document.createElement( 'input' );
-	fileInput.multiple = true;
-	fileInput.type = 'file';
-	fileInput.addEventListener( 'change', function () {
+	// const fileInput = document.createElement( 'input' );
+	// fileInput.multiple = true;
+	// fileInput.type = 'file';
+	// fileInput.addEventListener( 'change', function () {
 
-		editor.loader.loadFiles( fileInput.files );
-		form.reset();
+	// 	editor.loader.loadFiles( fileInput.files );
+	// 	form.reset();
 
-	} );
-	form.appendChild( fileInput );
+	// } );
+	// form.appendChild( fileInput );
 
 	option = new UIRow();
 	option.setClass( 'option' );
 	option.setTextContent( strings.getKey( 'menubar/file/import' ) );
 	option.onClick( function () {
 
-		fileInput.click();
-
+		// fileInput.click();
+		window.fsAPI.getOpenFilePaths().then( ( paths ) => {
+			if ( paths && paths.length > 0 ) {
+				editor.loader.loadFromPaths( paths );
+			}
+		} );
 	} );
 	options.add( option );
 
